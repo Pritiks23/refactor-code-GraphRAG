@@ -1,13 +1,12 @@
 name: Cleanup Unused Imports/Vars
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 6 * * 2"
+    - cron: "0 6 * * 2"  # Tuesdays
+  workflow_dispatch:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   cleanup:
@@ -25,19 +24,12 @@ jobs:
 
       - run: |
           ruff check . --fix --select F401,F841 --exclude .github/workflows/
-
-      - run: |
           autoflake --in-place --remove-all-unused-imports --ignore-init-module-imports --remove-duplicate-keys --expand-star-imports $(git ls-files "*.py")
 
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: remove unused imports/variables" || echo "No changes"
+          git push
 
-      - uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: remove unused imports/variables"
-          branch: cleanup-unused/update
-          title: "Cleanup unused imports/variables"
-          body: |
-            This PR removes unused imports and variables using Ruff and Autoflake.
