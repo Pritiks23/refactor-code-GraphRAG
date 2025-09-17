@@ -1,0 +1,36 @@
+# Changelog
+
+## Unreleased - 2025-09-17
+### Chores
+- update code graphs (2025-09-17)
+- update dependency manifest (2025-09-17)
+- add missing license headers (2025-09-17)
+
+### Other
+- Update .gitignore (2025-09-16)
+- style: auto-format via Black/Ruff/Prettier (2025-09-17)
+- Create dependency_manifest.py (2025-09-16)
+- Create dependency-manifest.yml (2025-09-16)
+- Create add_license_headers.py (2025-09-16)
+- Create license-header.yml (2025-09-16)
+- Update cleanup-unused.yml (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Update changelog.yml (2025-09-16)
+- Update code-graph.yml (2025-09-16)
+- Update cleanup-unused.yml (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Create .gitignore (2025-09-16)
+- Create .prettierignore (2025-09-16)
+- Update README.md (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Update generate_changelog.py (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Update auto-format.yml (2025-09-16)
+- Create cleanup-unused.yml (2025-09-16)
+- Create auto-format.yml (2025-09-16)
+- Create changelog.yml (2025-09-16)
+- Create code-graph.yml (2025-09-16)
+- Create generate_changelog.py (2025-09-16)
+- Create code_graph.py (2025-09-16)
+- Initial commit (2025-09-16)
