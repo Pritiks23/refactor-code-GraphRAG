@@ -82,6 +82,10 @@ By autonomously solving these problems, Refactor Bot becomes a **digital maintai
 
 ---
 
+<img width="781" height="545" alt="Screen Shot 2025-09-16 at 8 02 03 PM" src="https://github.com/user-attachments/assets/0b314c3c-71ed-4410-b818-f1bdfb013461" />
+
+
+
 ## 🧪 Tech Stack
 
 - **GitHub Actions** — agentic execution engine
