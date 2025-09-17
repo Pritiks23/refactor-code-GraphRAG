@@ -1,18 +1,34 @@
 #!/usr/bin/env python3
-import os, re, ast, glob, hashlib
+import os
+import ast
+import glob
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple, Optional
 from graphviz import Digraph
 
 # -------- config --------
-EXCLUDE_DIRS = {".git", ".venv", "venv", "site-packages", "build", "dist", "__pycache__", ".mypy_cache", ".ruff_cache", ".pytest_cache", "node_modules"}
+EXCLUDE_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "site-packages",
+    "build",
+    "dist",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    "node_modules",
+}
 DIAGRAM_DIR = os.path.join("diagrams")
 os.makedirs(DIAGRAM_DIR, exist_ok=True)
+
 
 # -------- utils --------
 def is_excluded(path: str) -> bool:
     parts = set(path.split(os.sep))
     return bool(EXCLUDE_DIRS & parts)
+
 
 def discover_py_files(root: str) -> List[str]:
     files = []
@@ -20,6 +36,7 @@ def discover_py_files(root: str) -> List[str]:
         if p.endswith(".py") and not is_excluded(p):
             files.append(os.path.abspath(p))
     return files
+
 
 def module_name_from_path(root: str, file_path: str) -> str:
     rel = os.path.relpath(file_path, root)
@@ -33,6 +50,7 @@ def module_name_from_path(root: str, file_path: str) -> str:
     mod = ".".join([p for p in parts if p])
     return mod
 
+
 # -------- AST collection --------
 @dataclass
 class Func:
@@ -42,12 +60,14 @@ class Func:
     lineno: int
     calls: Set[str] = field(default_factory=set)
 
+
 @dataclass
 class ModuleInfo:
     path: str
     module: str
     imports: Set[str] = field(default_factory=set)
     funcs: List[Func] = field(default_factory=list)
+
 
 class Walker(ast.NodeVisitor):
     def __init__(self, file: str, module: str):
@@ -68,7 +88,12 @@ class Walker(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node):
         qual = ".".join(self.stack + [node.name]) if self.stack else node.name
-        f = Func(name=node.name, qualname=f"{self.module}.{qual}", file=self.file, lineno=node.lineno)
+        f = Func(
+            name=node.name,
+            qualname=f"{self.module}.{qual}",
+            file=self.file,
+            lineno=node.lineno,
+        )
         self.funcs.append(f)
         prev = self.current
         self.stack.append(node.name)
@@ -96,6 +121,7 @@ class Walker(ast.NodeVisitor):
                 self.current.calls.add(callee)
         self.generic_visit(node)
 
+
 def collect(root: str) -> Dict[str, ModuleInfo]:
     out: Dict[str, ModuleInfo] = {}
     for f in discover_py_files(root):
@@ -105,15 +131,27 @@ def collect(root: str) -> Dict[str, ModuleInfo]:
         except Exception:
             continue
         mod = module_name_from_path(root, f)
-        w = Walker(f, mod); w.visit(tree)
+        w = Walker(f, mod)
+        w.visit(tree)
         out[mod] = ModuleInfo(path=f, module=mod, imports=w.imports, funcs=w.funcs)
     return out
+
 
 # -------- Graph rendering --------
 def render_module_graph(mods: Dict[str, ModuleInfo], out_path: str):
     g = Digraph("modules", format="svg")
-    g.attr(rankdir="LR", concentrate="true", splines="spline", nodesep="0.3", ranksep="0.7")
-    g.attr("node", shape="box", style="rounded,filled", fillcolor="#f6f8fa", color="#d0d7de", fontname="Inter,Helvetica,Arial", fontsize="10")
+    g.attr(
+        rankdir="LR", concentrate="true", splines="spline", nodesep="0.3", ranksep="0.7"
+    )
+    g.attr(
+        "node",
+        shape="box",
+        style="rounded,filled",
+        fillcolor="#f6f8fa",
+        color="#d0d7de",
+        fontname="Inter,Helvetica,Arial",
+        fontsize="10",
+    )
 
     for m in mods:
         g.node(m)
@@ -128,6 +166,7 @@ def render_module_graph(mods: Dict[str, ModuleInfo], out_path: str):
 
     g.render(out_path, cleanup=True)
 
+
 def render_call_graph(mods: Dict[str, ModuleInfo], out_path: str):
     # Build a cross-file call graph by name matching (best-effort)
     func_index: Dict[str, Set[str]] = {}  # simple name -> fully qualified names
@@ -136,8 +175,18 @@ def render_call_graph(mods: Dict[str, ModuleInfo], out_path: str):
             func_index.setdefault(f.name, set()).add(f.qualname)
 
     g = Digraph("calls", format="svg")
-    g.attr(rankdir="LR", concentrate="true", splines="spline", nodesep="0.2", ranksep="0.7")
-    g.attr("node", shape="ellipse", style="filled", fillcolor="#eef2ff", color="#c7d2fe", fontname="Inter,Helvetica,Arial", fontsize="9")
+    g.attr(
+        rankdir="LR", concentrate="true", splines="spline", nodesep="0.2", ranksep="0.7"
+    )
+    g.attr(
+        "node",
+        shape="ellipse",
+        style="filled",
+        fillcolor="#eef2ff",
+        color="#c7d2fe",
+        fontname="Inter,Helvetica,Arial",
+        fontsize="9",
+    )
 
     # Only include functions that call or are called cross-file
     nodes: Set[str] = set()
@@ -162,12 +211,14 @@ def render_call_graph(mods: Dict[str, ModuleInfo], out_path: str):
 
     g.render(out_path, cleanup=True)
 
+
 def main():
     root = os.getcwd()
     mods = collect(root)
     render_module_graph(mods, os.path.join(DIAGRAM_DIR, "code_graph_modules"))
     render_call_graph(mods, os.path.join(DIAGRAM_DIR, "code_graph_calls"))
     print("Generated diagrams in:", DIAGRAM_DIR)
+
 
 if __name__ == "__main__":
     main()

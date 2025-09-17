@@ -1,4 +1,3 @@
-
 # 🧼 Refactor Bot
 
 Autonomous code maintenance for Python and web-based repos — powered entirely by GitHub Actions.
@@ -19,16 +18,17 @@ Autonomous code maintenance for Python and web-based repos — powered entirely 
 
 ## 📁 Workflows
 
-| Workflow               | Purpose                                | Trigger         |
-|------------------------|----------------------------------------|-----------------|
-| `auto-format.yml`      | Format code and open PR                | Mon/Thu         |
-| `cleanup-unused.yml`   | Remove unused imports/vars and open PR | Tuesday         |
-| `code-graph.yml`       | Generate diagrams and commit           | Wednesday       |
-| `changelog.yml`        | Update `CHANGELOG.md` from history     | Thursday or tag |
+| Workflow             | Purpose                                | Trigger         |
+| -------------------- | -------------------------------------- | --------------- |
+| `auto-format.yml`    | Format code and open PR                | Mon/Thu         |
+| `cleanup-unused.yml` | Remove unused imports/vars and open PR | Tuesday         |
+| `code-graph.yml`     | Generate diagrams and commit           | Wednesday       |
+| `changelog.yml`      | Update `CHANGELOG.md` from history     | Thursday or tag |
 
 ## 📊 Diagrams
 
 Generated SVGs are committed to `/diagrams/`:
+
 - `code_graph_modules.svg`
 - `code_graph_calls.svg`
 
