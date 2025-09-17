@@ -1,0 +1,69 @@
+name: Auto Format
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * 1,4" # Mon/Thu 07:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python formatters
+        run: |
+          pip install --upgrade pip
+          pip install black ruff
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Prettier
+        run: |
+          npm install --global prettier
+
+      - name: Run Black
+        run: |
+          python - <<'PY'
+          import subprocess, shlex
+          import os
+          def run(cmd): subprocess.run(shlex.split(cmd), check=False)
+          # Only format if there are Python files
+          has_py = any(p.endswith(".py") for p in os.popen("git ls-files").read().splitlines())
+          if has_py:
+              run("black -q .")
+          PY
+
+      - name: Run Ruff (fix)
+        run: |
+          git ls-files "*.py" | tr '\n' ' ' | xargs -r ruff --fix
+
+      - name: Run Prettier
+        run: |
+          prettier --write "**/*.{js,jsx,ts,tsx,css,scss,md,json,yml,yaml,html,mdx}" || true
+
+      - name: Commit formatting changes
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "style: auto-format via Black/Ruff/Prettier"
+            git push
+          else
+            echo "No formatting changes."
+          fi
