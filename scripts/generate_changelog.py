@@ -42,7 +42,8 @@ def commits_between(a: str, b: str) -> List[str]:
         raw = run(["git", "log", "--no-merges", "--pretty=%H|%ad|%s", "--date=short", rng])
     except subprocess.CalledProcessError:
         return []
-    return [l for l in raw.splitlines() if l]
+    return [line for line in raw.splitlines() if line]
+
 
 def parse_commits(lines: List[str]) -> Dict[str, List[str]]:
     buckets: Dict[str, List[str]] = {k: [] for k, _ in CONV_TYPES}
