@@ -1,5 +1,8 @@
 
-# 🤖 Ref<img width="484" height="494" alt="Screen Shot 2025-09-16 at 7 57 20 PM" src="https://github.com/user-attachments/assets/17fd48bc-ffea-44be-9d6e-04e4f32cc8a6" />
+<img width="484" height="494" alt="Screen Shot 2025-09-16 at 7 57 20 PM" src="https://github.com/user-attachments/assets/17fd48bc-ffea-44be-9d6e-04e4f32cc8a6" />
+
+# 🤖 Refactor Code Bot: Autonomous Code Maintenance Agent
+
 
 
 
