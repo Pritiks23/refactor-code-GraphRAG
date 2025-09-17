@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Refactor Bot
+# Licensed under the MIT License. See LICENSE file in the project root for full license information.
+
 #!/usr/bin/env python3
 import re
 import subprocess
