@@ -1,0 +1,49 @@
+name: Cleanup Unused Imports/Vars
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 2" # Tuesdays 06:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install tools
+        run: |
+          pip install --upgrade pip
+          pip install ruff autoflake
+
+      - name: Remove unused with Ruff
+        run: |
+          # Ruff rules: F401 unused import, F841 local variable assigned but never used, plus others
+          git ls-files "*.py" | tr '\n' ' ' | xargs -r ruff --fix --select F401,F841,F632,F601,F602
+
+      - name: Remove unused with autoflake
+        run: |
+          git ls-files "*.py" | tr '\n' '\0' | xargs -0 -r autoflake --in-place --remove-all-unused-imports --ignore-init-module-imports --remove-duplicate-keys --expand-star-imports
+
+      - name: Commit cleanup
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: remove unused imports/variables"
+            git push
+          else
+            echo "No cleanup changes."
+          fi
