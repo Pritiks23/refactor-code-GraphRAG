@@ -163,6 +163,3 @@ MIT — free to use, fork, and extend.
 Exploring the future of **Agentic AI**.  
 Refactor Bot is your repo’s silent partner — always watching, always improving.
 
-## 📄 License
-
-MIT
