@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   format:
@@ -36,35 +37,31 @@ jobs:
         run: |
           npm install --global prettier
 
-      - name: Run Black
+      - name: Run Black (excluding workflows)
         run: |
-          python - <<'PY'
-          import subprocess, shlex
-          import os
-          def run(cmd): subprocess.run(shlex.split(cmd), check=False)
-          # Only format if there are Python files
-          has_py = any(p.endswith(".py") for p in os.popen("git ls-files").read().splitlines())
-          if has_py:
-              run("black -q .")
-          PY
+          black . --exclude '\.github/workflows/'
 
-      - name: Run Ruff (fix)
+      - name: Run Ruff format and lint fix
         run: |
-          git ls-files "*.py" | tr '\n' ' ' | xargs -r ruff format .
-
+          ruff format . --exclude .github/workflows/
+          ruff check . --fix --exclude .github/workflows/
 
       - name: Run Prettier
         run: |
           prettier --write "**/*.{js,jsx,ts,tsx,css,scss,md,json,yml,yaml,html,mdx}" || true
 
-      - name: Commit formatting changes
-        run: |
-          if ! git diff --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "style: auto-format via Black/Ruff/Prettier"
-            git push
-          else
-            echo "No formatting changes."
-          fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "style: auto-format via Black/Ruff/Prettier"
+          branch: auto-format/update
+          title: "Auto-format code"
+          body: |
+            This PR applies automated formatting using:
+            - Black (Python)
+            - Ruff (Python linting and formatting)
+            - Prettier (JS/CSS/HTML/Markdown)
+
+            Workflow files are excluded from formatting.
+
