@@ -50,7 +50,8 @@ jobs:
 
       - name: Run Ruff (fix)
         run: |
-          git ls-files "*.py" | tr '\n' ' ' | xargs -r ruff --fix
+          git ls-files "*.py" | tr '\n' ' ' | xargs -r ruff format .
+
 
       - name: Run Prettier
         run: |
