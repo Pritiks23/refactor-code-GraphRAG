@@ -1,13 +1,12 @@
-name: Auto Format and PR
+name: Auto Format
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 7 * * 1,4"
+    - cron: "0 7 * * 1,4"  # Mon/Thu 07:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   format:
@@ -40,18 +39,9 @@ jobs:
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "style: auto-format via Black/Ruff/Prettier" || echo "No changes"
+          git push
 
-      - uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "style: auto-format via Black/Ruff/Prettier"
-          branch: auto-format/update
-          title: "Auto-format code"
-          body: |
-            This PR applies automated formatting using:
-            - Black (Python)
-            - Ruff (Python linting and formatting)
-            - Prettier (JS/CSS/HTML/Markdown)
-            Workflow files are excluded from formatting.
 
 
