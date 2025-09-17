@@ -3,7 +3,7 @@ name: Code Graph Visualization
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8 * * 1" # Mondays 08:00 UTC
+    - cron: "0 8 * * 3"
 
 permissions:
   contents: write
@@ -12,38 +12,24 @@ jobs:
   graph:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install graphviz system package
-        run: |
+      - run: |
           sudo apt-get update
           sudo apt-get install -y graphviz
+          pip install graphviz
 
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install networkx graphviz
+      - run: python scripts/code_graph.py
 
-      - name: Generate graphs
-        run: |
-          python scripts/code_graph.py
-
-      - name: Commit diagrams
-        run: |
+      - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
-            git add diagrams/
-            git commit -m "chore(diagrams): update code graphs"
-            git push
-          else
-            echo "No diagram changes."
-          fi
+          git add diagrams/
+          git commit -m "chore(diagrams): update code graphs" || echo "No changes"
+          git push
