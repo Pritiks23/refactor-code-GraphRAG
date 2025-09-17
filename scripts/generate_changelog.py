@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 import re
 import subprocess
 from datetime import datetime
@@ -17,14 +16,24 @@ CONV_TYPES = [
     ("chore", "Chores"),
 ]
 
+
 def run(cmd: List[str]) -> str:
     out = subprocess.check_output(cmd, text=True)
     return out.strip()
 
+
 def get_tags() -> List[Tuple[str, str]]:
     # returns list of (tag, date) sorted by date asc
     try:
-        tags = run(["git", "for-each-ref", "--sort=creatordate", "--format=%(refname:strip=2)|%(creatordate:short)", "refs/tags"]).splitlines()
+        tags = run(
+            [
+                "git",
+                "for-each-ref",
+                "--sort=creatordate",
+                "--format=%(refname:strip=2)|%(creatordate:short)",
+                "refs/tags",
+            ]
+        ).splitlines()
         out = []
         for t in tags:
             if not t:
@@ -35,11 +44,14 @@ def get_tags() -> List[Tuple[str, str]]:
     except subprocess.CalledProcessError:
         return []
 
+
 def commits_between(a: str, b: str) -> List[str]:
     # a..b, exclusive a inclusive b
     rng = f"{a}..{b}" if a else b
     try:
-        raw = run(["git", "log", "--no-merges", "--pretty=%H|%ad|%s", "--date=short", rng])
+        raw = run(
+            ["git", "log", "--no-merges", "--pretty=%H|%ad|%s", "--date=short", rng]
+        )
     except subprocess.CalledProcessError:
         return []
     return [line for line in raw.splitlines() if line]
@@ -62,6 +74,7 @@ def parse_commits(lines: List[str]) -> Dict[str, List[str]]:
             buckets["other"].append(f"- {subj} ({date})")
     return buckets
 
+
 def render_section(title: str, date: str, buckets: Dict[str, List[str]]) -> str:
     lines = [f"## {title} - {date}"]
     for key, heading in CONV_TYPES:
@@ -76,6 +89,7 @@ def render_section(title: str, date: str, buckets: Dict[str, List[str]]) -> str:
         lines.extend(other)
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
+
 
 def main():
     tags = get_tags()
@@ -113,6 +127,7 @@ def main():
     with open("CHANGELOG.md", "w", encoding="utf-8") as f:
         f.write(changelog)
     print("Wrote CHANGELOG.md")
+
 
 if __name__ == "__main__":
     main()
