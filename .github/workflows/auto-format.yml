@@ -50,6 +50,11 @@ jobs:
         run: |
           prettier --write "**/*.{js,jsx,ts,tsx,css,scss,md,json,yml,yaml,html,mdx}" || true
 
+      - name: Configure Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
@@ -64,6 +69,4 @@ jobs:
             - Prettier (JS/CSS/HTML/Markdown)
 
             Workflow files are excluded from formatting.
-
-     
 
