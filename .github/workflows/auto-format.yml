@@ -1,9 +1,9 @@
-name: Auto Format
+name: Auto Format and PR
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 7 * * 1,4" # Mon/Thu 07:00 UTC
+    - cron: "0 7 * * 1,4" # Runs every Monday and Thursday at 07:00 UTC
 
 permissions:
   contents: write
@@ -13,7 +13,7 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -28,7 +28,7 @@ jobs:
           pip install --upgrade pip
           pip install black ruff
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -37,16 +37,16 @@ jobs:
         run: |
           npm install --global prettier
 
-      - name: Run Black (excluding workflows)
+      - name: Run Black (Python formatter)
         run: |
           black . --exclude '\.github/workflows/'
 
-      - name: Run Ruff format and lint fix
+      - name: Run Ruff (Python lint + format)
         run: |
           ruff format . --exclude .github/workflows/
           ruff check . --fix --exclude .github/workflows/
 
-      - name: Run Prettier
+      - name: Run Prettier (JS/CSS/HTML/Markdown)
         run: |
           prettier --write "**/*.{js,jsx,ts,tsx,css,scss,md,json,yml,yaml,html,mdx}" || true
 
@@ -64,4 +64,6 @@ jobs:
             - Prettier (JS/CSS/HTML/Markdown)
 
             Workflow files are excluded from formatting.
+
+     
 
