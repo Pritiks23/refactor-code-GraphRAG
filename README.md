@@ -1,4 +1,7 @@
-# 🤖 Refactor Bot: Autonomous Code Maintenance Agent
+
+# 🤖 Ref<img width="484" height="494" alt="Screen Shot 2025-09-16 at 7 57 20 PM" src="https://github.com/user-attachments/assets/17fd48bc-ffea-44be-9d6e-04e4f32cc8a6" />
+
+actor Bot: Autonomous Code Maintenance Agent
 
 Refactor Bot is an **agentic AI-powered solution** designed to autonomously maintain and optimize software repositories. Built entirely on GitHub Actions, it functions as a **self-directed collaborator** that formats code, cleans up unused logic, injects license headers, visualizes architecture, and tracks dependencies — all without human intervention.
 
