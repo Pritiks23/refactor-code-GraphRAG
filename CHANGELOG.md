@@ -1,12 +1,15 @@
 # Changelog
 
 ## Unreleased - 2025-09-17
+
 ### Chores
+
 - update code graphs (2025-09-17)
 - update dependency manifest (2025-09-17)
 - add missing license headers (2025-09-17)
 
 ### Other
+
 - Update .gitignore (2025-09-16)
 - style: auto-format via Black/Ruff/Prettier (2025-09-17)
 - Create dependency_manifest.py (2025-09-16)
