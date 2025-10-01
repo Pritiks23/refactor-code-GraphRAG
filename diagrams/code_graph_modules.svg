@@ -9,11 +9,11 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 214)">
 <title>modules</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-214 148,-214 148,4 -4,4"/>
-<!-- scripts.code_graph -->
+<!-- scripts.generate_changelog -->
 <g id="node1" class="node">
-<title>scripts.code_graph</title>
-<path fill="#f6f8fa" stroke="#d0d7de" d="M109.5,-36C109.5,-36 34.5,-36 34.5,-36 28.5,-36 22.5,-30 22.5,-24 22.5,-24 22.5,-12 22.5,-12 22.5,-6 28.5,0 34.5,0 34.5,0 109.5,0 109.5,0 115.5,0 121.5,-6 121.5,-12 121.5,-12 121.5,-24 121.5,-24 121.5,-30 115.5,-36 109.5,-36"/>
-<text text-anchor="middle" x="72" y="-15.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.code_graph</text>
+<title>scripts.generate_changelog</title>
+<path fill="#f6f8fa" stroke="#d0d7de" d="M128,-36C128,-36 16,-36 16,-36 10,-36 4,-30 4,-24 4,-24 4,-12 4,-12 4,-6 10,0 16,0 16,0 128,0 128,0 134,0 140,-6 140,-12 140,-12 140,-24 140,-24 140,-30 134,-36 128,-36"/>
+<text text-anchor="middle" x="72" y="-15.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.generate_changelog</text>
 </g>
 <!-- scripts.dependency_manifest -->
 <g id="node2" class="node">
@@ -21,17 +21,17 @@
 <path fill="#f6f8fa" stroke="#d0d7de" d="M132,-94C132,-94 12,-94 12,-94 6,-94 0,-88 0,-82 0,-82 0,-70 0,-70 0,-64 6,-58 12,-58 12,-58 132,-58 132,-58 138,-58 144,-64 144,-70 144,-70 144,-82 144,-82 144,-88 138,-94 132,-94"/>
 <text text-anchor="middle" x="72" y="-73.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.dependency_manifest</text>
 </g>
-<!-- scripts.add_license_headers -->
+<!-- scripts.code_graph -->
 <g id="node3" class="node">
-<title>scripts.add_license_headers</title>
-<path fill="#f6f8fa" stroke="#d0d7de" d="M130,-152C130,-152 14,-152 14,-152 8,-152 2,-146 2,-140 2,-140 2,-128 2,-128 2,-122 8,-116 14,-116 14,-116 130,-116 130,-116 136,-116 142,-122 142,-128 142,-128 142,-140 142,-140 142,-146 136,-152 130,-152"/>
-<text text-anchor="middle" x="72" y="-131.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.add_license_headers</text>
+<title>scripts.code_graph</title>
+<path fill="#f6f8fa" stroke="#d0d7de" d="M109.5,-152C109.5,-152 34.5,-152 34.5,-152 28.5,-152 22.5,-146 22.5,-140 22.5,-140 22.5,-128 22.5,-128 22.5,-122 28.5,-116 34.5,-116 34.5,-116 109.5,-116 109.5,-116 115.5,-116 121.5,-122 121.5,-128 121.5,-128 121.5,-140 121.5,-140 121.5,-146 115.5,-152 109.5,-152"/>
+<text text-anchor="middle" x="72" y="-131.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.code_graph</text>
 </g>
-<!-- scripts.generate_changelog -->
+<!-- scripts.add_license_headers -->
 <g id="node4" class="node">
-<title>scripts.generate_changelog</title>
-<path fill="#f6f8fa" stroke="#d0d7de" d="M128,-210C128,-210 16,-210 16,-210 10,-210 4,-204 4,-198 4,-198 4,-186 4,-186 4,-180 10,-174 16,-174 16,-174 128,-174 128,-174 134,-174 140,-180 140,-186 140,-186 140,-198 140,-198 140,-204 134,-210 128,-210"/>
-<text text-anchor="middle" x="72" y="-189.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.generate_changelog</text>
+<title>scripts.add_license_headers</title>
+<path fill="#f6f8fa" stroke="#d0d7de" d="M130,-210C130,-210 14,-210 14,-210 8,-210 2,-204 2,-198 2,-198 2,-186 2,-186 2,-180 8,-174 14,-174 14,-174 130,-174 130,-174 136,-174 142,-180 142,-186 142,-186 142,-198 142,-198 142,-204 136,-210 130,-210"/>
+<text text-anchor="middle" x="72" y="-189.5" font-family="Inter,Helvetica,Arial" font-size="10.00">scripts.add_license_headers</text>
 </g>
 </g>
 </svg>
