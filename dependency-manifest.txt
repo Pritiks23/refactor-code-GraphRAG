@@ -1,6 +1,6 @@
 # Dependency Tree
 
-pipdeptree==2.29.0
+pipdeptree==2.30.0
 ├── packaging [required: >=25, installed: 25.0]
 └── pip [required: >=25.2, installed: 25.3]
 setuptools==79.0.1
